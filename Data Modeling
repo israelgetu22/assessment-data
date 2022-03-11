@@ -1,0 +1,44 @@
+ pet adoption agency
+
+
+Animal
+  -animal_id 
+  -name
+  -bod
+  -picture 
+  -size
+Animal_Color
+  -animal_color_id 
+  -animal_id
+  -color_id 
+Color
+  -color_id 
+  -color 
+Animal Character
+  -animal_char_id 
+  -animal_id 
+  -char_id
+Animal food
+ -food_id
+ -food_type
+ -food_color
+
+food and Animal 
+   - food_id
+   - animal_id
+   - fav_food
+
+
+Relationship 
+
+one to one
+ -
+one to many 
+ - Animal to Animal_color
+ - Color to Animal_color
+ - Animal to animal_character
+many to many
+ - Animal to Animal Food
+
+
+ 
