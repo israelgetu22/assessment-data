@@ -34,6 +34,11 @@ module.exports = {
                 references countries(country_id)
             );
 
+            INSERT INTO cities(city_id,name,rating)
+               VALUES (142,'Addis Ababa',4),
+               (143,'Monbassa',4),
+               (144,'Yemen',4)
+
             insert into countries (name)
             values ('Afghanistan'),
             ('Albania'),
@@ -250,7 +255,7 @@ module.exports = {
   },
 
   createCity: (req, res) => {
-    const { name, rating, countryId } = req.body;
+    let { name, rating, countryId } = req.body;
     //console.log(`name: ${name}, rating: ${rating}, countryID: ${countryId}`);
     sequelize
       .query(
@@ -269,7 +274,7 @@ module.exports = {
       .query(
         `SELECT ci.city_id,ci.name AS city,ci.rating,co.country_id,co.name AS country FROM  cities AS ci
           JOIN countries AS co ON ci.country_id = co.country_id
-          ORDER BY cities.rating DESC;`
+          ORDER BY ci.rating DESC;`
       )
       .then((dbRes) => res.status(200).send(dbRes[0]))
       .catch((err) => console.log(err));
