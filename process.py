@@ -1,6 +1,8 @@
 log_file = open("um-server-01.txt")  #Open the file 'um-server-01.txe' using 'open("filename")'
 
 
+
+
 def sales_reports(log_file):  #Creating a function in a name of 'sales_reports'
     for line in log_file:     #loop or iteration of each log_file in variable line
         line = line.rstrip()  #removes any characters at the end a string
