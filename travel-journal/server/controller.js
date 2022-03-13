@@ -22,7 +22,7 @@ module.exports = {
 
             create table countries (
                 country_id serial primary key, 
-                name varchar
+                name varchar(200)
             );
          
 
@@ -30,7 +30,8 @@ module.exports = {
                 city_id serial primary key,
                 name varchar(100),
                 rating integer,
-                country_id integer
+                country_id integer 
+                references countries(country_id)
             );
 
             insert into countries (name)
@@ -249,13 +250,15 @@ module.exports = {
   },
 
   createCity: (req, res) => {
-    const { countryId, name, rating } = req.body;
-
+    const { name, rating, countryId } = req.body;
+    //console.log(`name: ${name}, rating: ${rating}, countryID: ${countryId}`);
     sequelize
       .query(
-        `INSERT INTO countries (countryId,name,rating,)
-          VALUES (${countryId},'${name}','${rating}')
-          RETURNING *;`
+        `
+        INSERT INTO cities(name,rating,country_id)
+          VALUES ('${name}', ${rating},${countryId});
+          
+          `
       )
       .then((dbRes) => res.status(200).send(dbRes[0]))
       .catch((err) => console.log(err));
@@ -264,8 +267,9 @@ module.exports = {
   getCities: (req, res) => {
     sequelize
       .query(
-        `SELECT ci.city_id,ci.name,ci.rating,co.country_id,co.name FROM countries AS co
-          JOIN cities AS ci ON ci.country_id = co.country_id;`
+        `SELECT ci.city_id,ci.name AS city,ci.rating,co.country_id,co.name AS country FROM  cities AS ci
+          JOIN countries AS co ON ci.country_id = co.country_id
+          ORDER BY cities.rating DESC;`
       )
       .then((dbRes) => res.status(200).send(dbRes[0]))
       .catch((err) => console.log(err));
@@ -274,27 +278,11 @@ module.exports = {
     let { id } = req.params;
     sequelize
       .query(
-        `DELETE 
+        `DELETE
          FROM cities
          WHERE city_id = ${id};`
       )
       .then((dbRes) => res.status(200).send(dbRes[0]))
-      .catch((err) => console.log(err));
-  },
-  updategetCities: (req, res) => {
-    let { city_id, name, rating, country_id } = req.body;
-
-    sequelize
-      .query(
-        `UPDATE ci cities SET city_id = '${city_id}', 
-        name = '${name}', 
-        rating = '${rating}', 
-        country_id = ${country_id}
-        GROUP BY rating DESC
-       
-      `
-      )
-      .then(() => res.sendStatus(200))
       .catch((err) => console.log(err));
   },
 };
