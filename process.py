@@ -24,3 +24,10 @@ def sales_reports(log_file):  #Creating a function in a name of 'sales_reports'
 
 
 sales_reports(log_file)        #calling the python function and invoke 'log_file'
+
+def over_10_mo(log_file):
+    for line in log_file:
+        line = line.rstrip()
+      
+        if  > 10:
+            print(line)
